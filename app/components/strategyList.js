@@ -10,14 +10,14 @@ function removeHTML(string) {
   return string.replace(/(<([^>]+)>)/ig, '');
 }
 
-const formats = ['OU', 'UU', 'RU', 'NU', 'PU', 'LC'];
+const formats = ['All', 'OU', 'UU', 'RU', 'NU', 'PU', 'LC'];
 
 export default class StrategyList extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      format: 'OU',
+      format: 'All',
     };
   }
 
@@ -26,7 +26,7 @@ export default class StrategyList extends Component {
     const movesets = strategies.map(s => s.movesets.map(m => Object.assign({format: s.format}, m))).reduce((s1, s2) => s1.concat(s2));
     const list = movesets.map((moveset, i) => {
       const { format, description, abilities, evconfigs, moveslots, name, natures, items } = moveset;
-      if (format !== this.state.format) return null;
+      if (format !== this.state.format && this.state.format !== 'All') return null;
       const evconfig = evconfigs[0];
       const stats = Object.keys(evconfig);
       let evs = '';
