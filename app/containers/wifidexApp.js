@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component, View } from 'react-native';
+import React, { Component, View, ScrollView } from 'react-native';
 import {bindActionCreators} from 'redux';
 import * as pokemonActions from '../actions/pokemonActions';
 import * as searchActions from '../actions/searchActions';
@@ -20,16 +20,20 @@ class WifidexApp extends Component {
   render() {
     const { state, actions } = this.props;
     return (
-      <View style={{padding: 10, paddingTop: 30}}>
-        <Search
-          isFetching={state.pokemon.isFetching}
-          searchError={state.pokemon.error}
-          onSearch={actions.pokemon.fetchPokemon}
-          {...state.search}
-          {...actions.search} />
-        <Entry
-          {...state.pokemon}
-          {...actions.pokemon} />
+      <View style={{flex: 1, padding: 10, paddingTop: 30}}>
+        <View style={{flex: 1}}>
+          <Search
+            isFetching={state.pokemon.isFetching}
+            searchError={state.pokemon.error}
+            onSearch={actions.pokemon.fetchPokemon}
+            {...state.search}
+            {...actions.search} />
+        </View>
+        <ScrollView style={{flex: 5}}>
+          <Entry
+            {...state.pokemon}
+            {...actions.pokemon} />
+        </ScrollView>
       </View>
     );
   }

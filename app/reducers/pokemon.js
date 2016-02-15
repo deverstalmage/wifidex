@@ -18,6 +18,7 @@ export default function pokemon(state = initialState, action = {}) {
         ...state,
         isFetching: false,
         data: action.data,
+        strategy: action.strategy,
       };
       break;
     case types.FAILED_POKEMON:
