@@ -1,10 +1,10 @@
-import React, { Component } from 'react-native';
+import React, { Component, NavigatorIOS } from 'react-native';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import * as reducers from '../reducers';
-import WifidexApp from './wifidexApp';
+import Nav from './nav';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const reducer = combineReducers(reducers);
@@ -14,7 +14,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <WifidexApp />
+        <Nav />
       </Provider>
     );
   }

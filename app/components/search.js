@@ -8,6 +8,7 @@ import React, {
   ActivityIndicatorIOS,
 } from 'react-native';
 
+import SearchBar from 'react-native-search-bar';
 
 const baseButton = {
   flex: 1,
@@ -43,6 +44,11 @@ export default class Entry extends Component {
     if (this.props.searchError !== nextProps.searchError) this.setState({error: nextProps.searchError});
   }
 
+  search() {
+    this.props.onSearch(this.props.searchText);
+    this.refs.searchBar.blur();
+  }
+
   clear() {
     this.props.updateSearchText('');
     this.setState({
@@ -51,36 +57,41 @@ export default class Entry extends Component {
   }
 
   render() {
-    const { onSearch, updateSearchText, clearError } = this.props;
-    const { searchText, isFetching } = this.props;
+    const { updateSearchText } = this.props;
+    const { searchText, isFetching, style } = this.props;
 
     const errorText = this.state.error ? <Text style={{color: 'red'}}>{this.state.error}</Text> : null;
     const searchActivity = isFetching ? <ActivityIndicatorIOS animating={isFetching} /> : null;
 
+    // <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+    //   <TextInput onChangeText={updateSearchText}
+    //              autoCapitalize={'words'}
+    //              value={searchText}
+    //              placeholder={'Search Pokemon name here'}
+    //              style={styles.input}
+    //   />
+    //   {searchActivity}
+    //   <View style={{flex: 1, flexDirection: 'row' }}>
+    //     <TouchableOpacity style={styles.buttonSearch} onPress={() => onSearch(searchText)}>
+    //       <Text>Search</Text>
+    //     </TouchableOpacity>
+    //     <TouchableOpacity style={styles.buttonClear} onPress={this.clear.bind(this)}>
+    //       <Text>Clear</Text>
+    //     </TouchableOpacity>
+    //   </View>
+    //   {errorText}
+    // </View>
+
     return (
-      <View style={{flex: 1, marginBottom: 10}}>
-
-        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-          <TextInput onChangeText={updateSearchText}
-                     autoCapitalize={'words'}
-                     value={searchText}
-                     placeholder={'Search Pokemon name here'}
-                     style={styles.input}
-          />
-          {searchActivity}
-        </View>
-
-        <View style={{flex: 1, flexDirection: 'row' }}>
-          <TouchableOpacity style={styles.buttonSearch} onPress={() => onSearch(searchText)}>
-            <Text>Search</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonClear} onPress={this.clear.bind(this)}>
-            <Text>Clear</Text>
-          </TouchableOpacity>
-        </View>
-
-        {errorText}
-
+      <View style={Object.assign({}, style)}>
+        <SearchBar
+          ref='searchBar'
+          placeholder='Search'
+          onChangeText={updateSearchText}
+          onSearchButtonPress={this.search.bind(this)}
+          onCancelButtonPress={this.clear.bind(this)}
+          text={searchText}
+        />
       </View>
     );
   }

@@ -22,14 +22,17 @@ export default class Entry extends Component {
     const typeList = data ? <TypeList types={data.types} /> : null;
     const abilityList = data ? <AbilityList abilities={data.abilities} /> : null;
     const strategyList = strategy ? <StrategyList strategy={strategy} /> : null;
-    const image = data ? <Image style={{height: 200}} source={{uri: `http://img.pokemondb.net/artwork/${data.name}.jpg`}} /> : null;
+    const image = data ? <Image style={{width: 150, height: 150}} source={{uri: `http://www.smogon.com/dex/media/sprites/xy/${data.name}.gif`}} /> : null;
 
     return (
       <View>
-        {image}
+        <View>
+          {image}
+          {statList}
+        </View>
+
         {typeList}
         {abilityList}
-        {statList}
         {strategyList}
       </View>
     );

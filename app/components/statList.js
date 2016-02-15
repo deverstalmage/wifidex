@@ -10,7 +10,7 @@ export default class StatList extends Component {
   }
 
   render() {
-    const { stats } = this.props;
+    const { stats, style } = this.props;
 
     const statList = stats.map(stat => {
       const { base_stat: base, stat: { name } } = stat;
@@ -20,7 +20,7 @@ export default class StatList extends Component {
     }).reverse();
 
     return (
-      <View style={{padding: 10}}>
+      <View style={Object.assign({padding: 10}, style)}>
         {statList}
       </View>
     );
