@@ -1,4 +1,10 @@
-import React, { Component, Navigator, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import React, {
+  Component,
+  Navigator,
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+} from 'react-native';
 
 import { bindActionCreators } from 'redux';
 import * as pokemonActions from '../actions/pokemonActions';
@@ -9,14 +15,14 @@ import Wifidex from '../components/wifidex';
 
 var styles = StyleSheet.create({
   navBar: {
-    backgroundColor: 'white',
+    backgroundColor: '#BD1550',
   },
   navBarText: {
     fontSize: 16,
     marginVertical: 10,
   },
   navBarTitleText: {
-    color: 'gray',
+    color: 'white',
     fontWeight: '500',
     marginVertical: 9,
   },
@@ -27,7 +33,7 @@ var styles = StyleSheet.create({
     paddingRight: 10,
   },
   navBarButtonText: {
-    color: 'blue',
+    color: 'white',
   },
 });
 
@@ -55,7 +61,7 @@ const NavigationBarRouteMapper = {
   Title: function(route, navigator, index, navState) {
     return (
       <Text style={[styles.navBarText, styles.navBarTitleText]}>
-        {route.title} [{index}]
+        {route.title}
       </Text>
     );
   },
@@ -109,5 +115,3 @@ export default connect(state => ({state}),
     },
   })
 )(Nav);
-
-

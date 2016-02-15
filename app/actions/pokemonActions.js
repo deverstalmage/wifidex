@@ -4,8 +4,6 @@ export function fetchPokemon(name) {
 
   return function(dispatch) {
 
-    console.log('FETCHING ' + name);
-
     dispatch(requestPokemon());
 
     const dex = fetch(`http://pokeapi.co/api/v2/pokemon/${name.trim().toLowerCase()}/`);
@@ -20,7 +18,6 @@ export function fetchPokemon(name) {
     return Promise.all([dex, strategy])
       .then(responses => Promise.all(responses.map(r => r.json())))
       .then(data => {
-        console.log('DATA', data);
         if (!data[0].id) throw new Error(`Pokemon "${name}" not found`);
         return dispatch(receivePokemon(data[0], data[1]));
       })

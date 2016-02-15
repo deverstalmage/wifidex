@@ -12,15 +12,14 @@ export default class AbilityList extends Component {
   render() {
     const { abilities } = this.props;
 
-    const abilityList = abilities.map(ability => {
+    const abilityList = abilities.sort().map((ability, i) => {
       const { ability: { name }, is_hidden: hidden } = ability;
-      return (
-        <Text key={`ability_${name}`}>{name} {hidden ? '*': null}</Text>
-      )
-    }).reverse();
+      const slash = i < abilities.length - 1 ? ' / ' : null;
+      return <Text key={`ability_${name}`}>{name}{hidden ? '*': null}{slash}</Text>;
+    });
 
     return (
-      <View style={{padding: 10}}>
+      <View style={{padding: 10, flex: 1, flexDirection: 'row'}}>
         {abilityList}
       </View>
     );

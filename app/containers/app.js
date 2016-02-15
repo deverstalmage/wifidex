@@ -1,4 +1,4 @@
-import React, { Component, NavigatorIOS } from 'react-native';
+import React, { Component, StatusBarIOS } from 'react-native';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -11,6 +11,10 @@ const reducer = combineReducers(reducers);
 const store = createStoreWithMiddleware(reducer);
 
 export default class App extends Component {
+  componentDidMount() {
+    StatusBarIOS.setStyle('light-content');
+  }
+
   render() {
     return (
       <Provider store={store}>
