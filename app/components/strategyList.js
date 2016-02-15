@@ -3,23 +3,30 @@ import React, {
   View,
   Text,
   WebView,
+  SegmentedControlIOS,
 } from 'react-native';
 
 function removeHTML(string) {
   return string.replace(/(<([^>]+)>)/ig, '');
 }
 
+const formats = ['OU', 'UU', 'RU', 'NU', 'PU', 'LC'];
+
 export default class StrategyList extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      format: 'OU',
+    };
   }
 
   render() {
-    const { strategy: { strategies }, formats } = this.props;
+    const { strategy: { strategies } } = this.props;
     const movesets = strategies.map(s => s.movesets.map(m => Object.assign({format: s.format}, m))).reduce((s1, s2) => s1.concat(s2));
     const list = movesets.map((moveset, i) => {
       const { format, description, abilities, evconfigs, moveslots, name, natures, items } = moveset;
-      if (formats.indexOf(format) < 0) return null;
+      if (format !== this.state.format) return null;
       const evconfig = evconfigs[0];
       const stats = Object.keys(evconfig);
       let evs = '';
@@ -31,8 +38,17 @@ export default class StrategyList extends Component {
       );
     }).reverse().filter(s => s !== null);
 
-    const content = list.length ? list : <Text>No content for formats {formats.join(' ')} found</Text>;
+    const content = list.length ? list : <Text>No content for formats {this.state.format} found</Text>;
 
-    return <View style={{padding: 10}}>{content}</View>;
+    return (
+      <View style={{padding: 10}}>
+        <SegmentedControlIOS
+          values={formats}
+          selectedIndex={0}
+          onValueChange={val => this.setState({format: val})}
+        />
+      {content}
+      </View>
+    );
   }
 }
