@@ -34,14 +34,27 @@ const styles = StyleSheet.create({
 export default class Entry extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      error: null,
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.searchError !== nextProps.searchError) this.setState({error: nextProps.searchError});
+  }
+
+  clear() {
+    this.props.updateSearchText('');
+    this.setState({
+      error: null,
+    });
   }
 
   render() {
-    const { onSearch, updateSearchText } = this.props;
-    const { searchText, error, errorMessage, isFetching } = this.props;
+    const { onSearch, updateSearchText, clearError } = this.props;
+    const { searchText, isFetching } = this.props;
 
-    const errorText = errorMessage ? <Text style={{color: 'red'}}>{errorMessage}</Text> : null;
-
+    const errorText = this.state.error ? <Text style={{color: 'red'}}>{this.state.error}</Text> : null;
     const searchActivity = isFetching ? <ActivityIndicatorIOS animating={isFetching} /> : null;
 
     return (
@@ -57,16 +70,16 @@ export default class Entry extends Component {
           {searchActivity}
         </View>
 
-        {errorText}
-
         <View style={{flex: 1, flexDirection: 'row' }}>
           <TouchableOpacity style={styles.buttonSearch} onPress={() => onSearch(searchText)}>
             <Text>Search</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonClear} onPress={() => updateSearchText('')}>
+          <TouchableOpacity style={styles.buttonClear} onPress={this.clear.bind(this)}>
             <Text>Clear</Text>
           </TouchableOpacity>
         </View>
+
+        {errorText}
 
       </View>
     );

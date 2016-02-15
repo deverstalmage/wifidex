@@ -19,11 +19,11 @@ class WifidexApp extends Component {
 
   render() {
     const { state, actions } = this.props;
-    console.log('STATE', state);
     return (
       <View style={{padding: 10, paddingTop: 30}}>
         <Search
           isFetching={state.pokemon.isFetching}
+          searchError={state.pokemon.error}
           onSearch={actions.pokemon.fetchPokemon}
           {...state.search}
           {...actions.search} />

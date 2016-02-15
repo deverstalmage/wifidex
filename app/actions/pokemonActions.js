@@ -11,13 +11,10 @@ export function fetchPokemon(name) {
     return fetch(`http://pokeapi.co/api/v2/pokemon/${name.trim().toLowerCase()}/`)
       .then(response => response.json())
       .then(data => {
-        console.log('DATA;', data);
+        if (!data.id) throw new Error(`Pokemon "${name}" not found`);
         return dispatch(receivePokemon(data));
       })
-      .catch(error => {
-        console.log('Error', error);
-        return dispatch(fetchPokemonFailed(name, error));
-      });
+      .catch(error => dispatch(fetchPokemonFailed(error.message)));
   };
 }
 
@@ -34,10 +31,9 @@ export function receivePokemon(data) {
   };
 }
 
-export function fetchPokemonFailed(name, error) {
+export function fetchPokemonFailed(error) {
   return {
     type: types.FAILED_POKEMON,
-    message: `Couldn't fetch ${name}`,
     error,
   };
 }
