@@ -19,7 +19,7 @@ export default class Entry extends Component {
 
   render() {
     const { fetchPokemon, updateSearchText } = this.props;
-    const { searchText, data, error, errorMessage, isFetching, strategy } = this.props;
+    const { searchText, data, error, isFetching, strategy } = this.props;
 
     const numName = data ? <Text style={{marginBottom: 10}}>#{data.id}: {data.name.charAt(0).toUpperCase() + data.name.slice(1)}</Text> : null;
     const statList = data ? <StatList stats={data.stats} /> : null;
@@ -30,24 +30,28 @@ export default class Entry extends Component {
 
     let content;
     if (isFetching) {
-      content = <ActivityIndicatorIOS style={{height: 100, alignItems: 'center', justifyContent: 'center'}} />;
+      content = <ActivityIndicatorIOS style={{flex: 1, alignItems: 'center', justifyContent: 'center'}} />;
     } else {
-      content = data ? (
-        <ScrollView style={{flex: 1, padding: 10}}>
-          {numName}
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            {image}
-            {statList}
+      if (error) {
+        content = <Text style={{color: 'red', padding: 10, textAlign: 'center'}}>{error}</Text>;
+      } else {
+        content = data ? (
+          <ScrollView style={{flex: 1, padding: 10}}>
+            {numName}
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              {image}
+              {statList}
+            </View>
+            {typeList}
+            {abilityList}
+            {strategyList}
+          </ScrollView>
+        ) : (
+          <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', opacity: 0.05}}>
+            <Image style={{height: 50, width: 50}} source={{uri: 'http://orig14.deviantart.net/727b/f/2012/102/f/1/pokeball_sprite_by_creepypasta81691-d4vzl6r.png'}} />
           </View>
-          {typeList}
-          {abilityList}
-          {strategyList}
-        </ScrollView>
-      ) : (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', opacity: 0.05}}>
-          <Image style={{height: 50, width: 50}} source={{uri: 'http://orig14.deviantart.net/727b/f/2012/102/f/1/pokeball_sprite_by_creepypasta81691-d4vzl6r.png'}} />
-        </View>
-      );
+        );
+      }
     }
 
     return <View style={{flex: 1}}>{content}</View>;
