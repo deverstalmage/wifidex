@@ -36,14 +36,14 @@ export default class TypeList extends Component {
     const typeList = types.map(type => {
       const { type: { name } } = type;
       return (
-        <View  key={`type_${name}`} style={{padding: 5, margin: 5, backgroundColor: typeColors[name], borderRadius: 5, width: 100}}>
+        <View  key={`type_${name}`} style={{padding: 5, marginRight: 5, backgroundColor: typeColors[name], borderRadius: 5, width: 100, alignItems: 'center', justifyContent: 'center'}}>
           <Text style={{color: (name === 'electric' || name === 'grass' || name === 'ice') ? 'black' : 'white'}}>{name}</Text>
         </View>
       )
     }).reverse();
 
     return (
-      <View style={{padding: 10, flex: 1, flexDirection: 'row'}}>
+      <View style={{flex: 1, flexDirection: 'row', marginTop: 10, marginBottom: 10}}>
         {typeList}
       </View>
     );

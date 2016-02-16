@@ -10,16 +10,17 @@ export default class AbilityList extends Component {
   }
 
   render() {
-    const { abilities } = this.props;
+    const { abilities, preferredAbilities } = this.props;
 
     const abilityList = abilities.sort().map((ability, i) => {
       const { ability: { name }, is_hidden: hidden } = ability;
+      const nameWithSpaces = name.replace(/-/g, ' ');
       const slash = i < abilities.length - 1 ? ' / ' : null;
-      return <Text key={`ability_${name}`}>{name}{hidden ? '*': null}{slash}</Text>;
+      return <Text key={`ability_${name}`} style={{fontWeight: preferredAbilities.indexOf(nameWithSpaces) > -1 ? 'bold' : 'normal'}}>{nameWithSpaces} {hidden ? '(h)': null}{slash}</Text>;
     });
 
     return (
-      <View style={{padding: 10, flex: 1, flexDirection: 'row'}}>
+      <View style={{paddingTop: 10, paddingBottom: 10, flex: 1, flexDirection: 'row'}}>
         {abilityList}
       </View>
     );

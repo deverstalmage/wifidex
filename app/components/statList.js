@@ -63,18 +63,18 @@ export default class StatList extends Component {
     const statList = stats.map(stat => {
       const { base_stat: base, stat: { name } } = stat;
       return (
-        <View style={{flex: 1, flexDirection: 'row'}} key={`stat_${name}`}>
+        <View style={{flex: 1, flexDirection: 'row', marginBottom: 5, alignItems: 'center'}} key={`stat_${name}`}>
           <View style={{width: 50}}>
             <Text>{statNames[name]}:</Text>
           </View>
-          <View style={{backgroundColor: makeColor(base / 180), width: base, height: 10}}></View>
+          <View style={{backgroundColor: makeColor(base / 180), width: base, height: 15, marginRight: 5}}></View>
           <Text>{base}</Text>
         </View>
       )
     }).reverse();
 
     return (
-      <View style={Object.assign({padding: 10}, style)}>
+      <View style={Object.assign({}, style)}>
         {statList}
       </View>
     );

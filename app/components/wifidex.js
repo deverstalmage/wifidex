@@ -14,8 +14,8 @@ export default class Wifidex extends Component {
   }
 
   componentDidMount() {
-    const pkmn = pokemonNames[Math.floor(Math.random() * pokemonNames.length)];
-    this.props.actions.pokemon.fetchPokemon(pkmn);
+    // const pkmn = pokemonNames[Math.floor(Math.random() * pokemonNames.length)]; // random pokemon
+    // this.props.actions.pokemon.fetchPokemon(pkmn);
   }
 
   render() {
@@ -28,11 +28,11 @@ export default class Wifidex extends Component {
           onSearch={actions.pokemon.fetchPokemon}
           {...state.search}
           {...actions.search} />
-        <ScrollView style={{flex: 1}}>
+        <View style={{flex: 1}}>
           <Entry
             {...state.pokemon}
             {...actions.pokemon} />
-        </ScrollView>
+        </View>
       </View>
     );
   }

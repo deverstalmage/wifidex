@@ -44,12 +44,11 @@ export default class Entry extends Component {
     return (
       <View style={Object.assign({height: 44}, style)}>
         <SearchBar
-          ref='searchBar'
-          placeholder='Search'
+          ref="searchBar"
+          placeholder="Search"
           onChangeText={updateSearchText}
           onSearchButtonPress={this.search.bind(this)}
           onCancelButtonPress={this.clear.bind(this)}
-          text={searchText}
         />
       </View>
     );
