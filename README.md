@@ -1,2 +1,2 @@
 ### Wifidex
-A very simple strategy pokedex for reference when playing wifi battles. Pulls up stats, types, abilities, and Smogon strategy dex info.
+A very simple strategy pokedex for use when playing wifi battles. Consolidates dex and smogon info for quicker reference.
