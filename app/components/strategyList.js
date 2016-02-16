@@ -13,7 +13,7 @@ function removeHTML(string) {
 }
 
 const formats = ['All', 'OU', 'UU', 'Lower'];
-const allTiers = ['OU', 'UU', 'RU', 'NU', 'PU', 'LC'];
+const allTiers = ['Uber', 'OU', 'UU', 'RU', 'NU', 'PU', 'LC'];
 const lowerTiers = ['RU', 'NU', 'PU', 'LC'];
 
 export default class StrategyList extends Component {
