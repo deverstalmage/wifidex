@@ -11,6 +11,7 @@ export default function pokemon(state = initialState, action = {}) {
     case types.REQUEST_POKEMON:
       return {
         ...state,
+        error: null,
         isFetching: true,
       };
     case types.RECEIVE_POKEMON:

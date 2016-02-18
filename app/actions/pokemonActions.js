@@ -4,6 +4,8 @@ export function fetchPokemon(name) {
 
   return function(dispatch) {
 
+    console.log('fetching', name);
+
     dispatch(requestPokemon());
 
     const dex = fetch(`http://pokeapi.co/api/v2/pokemon/${name.trim().toLowerCase()}/`);
