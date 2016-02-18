@@ -19,13 +19,13 @@ export default class Entry extends Component {
 
   render() {
     const { fetchPokemon, updateSearchText } = this.props;
-    const { searchText, data, error, isFetching, strategy } = this.props;
+    const { searchText, data, error, isFetching, strategy, launchInfoPanel } = this.props;
 
-    const numName = data ? <Text style={{marginBottom: 10}}>#{data.id}: {data.name.charAt(0).toUpperCase() + data.name.slice(1)}</Text> : null;
-    const statList = data ? <StatList stats={data.stats} /> : null;
-    const typeList = data ? <TypeList types={data.types} /> : null;
-    const abilityList = data ? <AbilityList abilities={data.abilities} preferredAbilities={strategy.map(s => s.abilities).reduce((a1, a2) => a1.concat(a2), []).map(a => a.toLowerCase())} /> : null;
-    const strategyList = strategy ? <StrategyList strategy={strategy} /> : null;
+    const numName = data ? <Text launchInfoPanel={launchInfoPanel} style={{marginBottom: 10}}>#{data.id}: {data.name.charAt(0).toUpperCase() + data.name.slice(1)}</Text> : null;
+    const statList = data ? <StatList launchInfoPanel={launchInfoPanel} stats={data.stats} /> : null;
+    const typeList = data ? <TypeList launchInfoPanel={launchInfoPanel} types={data.types} /> : null;
+    const abilityList = data ? <AbilityList launchInfoPanel={launchInfoPanel} abilities={data.abilities} preferredAbilities={strategy.map(s => s.abilities).reduce((a1, a2) => a1.concat(a2), []).map(a => a.toLowerCase())} /> : null;
+    const strategyList = strategy ? <StrategyList launchInfoPanel={launchInfoPanel} strategy={strategy} /> : null;
     const image = data ? <Image style={{borderWidth: 1, borderColor: 'lightgray', width: 150, height: 150, marginRight: 10}} source={{uri: `http://www.smogon.com/dex/media/sprites/xy/${data.name}.gif`}} /> : null;
 
     let content;

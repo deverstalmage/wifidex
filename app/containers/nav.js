@@ -4,6 +4,8 @@ import React, {
   TouchableOpacity,
   StyleSheet,
   Text,
+  View,
+  StatusBarIOS,
 } from 'react-native';
 
 import { bindActionCreators } from 'redux';
@@ -12,6 +14,7 @@ import * as searchActions from '../actions/searchActions';
 import { connect } from 'react-redux';
 
 import Wifidex from '../components/wifidex';
+import InfoPanel from '../components/infoPanel';
 
 var styles = StyleSheet.create({
   navBar: {
@@ -71,38 +74,70 @@ const NavigationBarRouteMapper = {
 class Nav extends Component {
   constructor(props) {
     super(props);
+
+    this.launchInfoPanel = this.launchInfoPanel.bind(this);
+    this.closeInfoPanel = this.closeInfoPanel.bind(this);
+
     this.state = {
       currentRoute: {
         name: 'wifidex',
         title: 'Wifidex',
         index: 0,
       },
+      modal: {
+        title: '',
+        content: '',
+        open: false,
+      },
     };
   }
 
+  launchInfoPanel(title, content) {
+    this.setState({
+      modal: {
+        title,
+        content,
+        open: true,
+      },
+    })
+  }
+
+  closeInfoPanel() {
+    StatusBarIOS.setStyle('light-content');
+    this.setState({
+      modal: {
+        ...this.state.modal,
+        open: false,
+      },
+    });
+  }
+
   render() {
+    const modal = this.state.modal.open ? <InfoPanel onClose={this.closeInfoPanel} {...this.state.modal} /> : null;
+
     return (
-      <Navigator
-        style={{flex: 1}}
-        initialRoute={this.state.currentRoute}
-        navigationBar={
-          <Navigator.NavigationBar
-            routeMapper={NavigationBarRouteMapper}
-            style={styles.navBar}
-          />
-        }
-        renderScene={(route, navigator) => {
-          switch (route.name) {
-            case 'wifidex':
-              return (
-                <Wifidex {...this.props} />
-              )
-              break;
-            default:
-              break;
+      <View style={{flex: 1}}>
+        <Navigator
+          style={{flex: 1}}
+          initialRoute={this.state.currentRoute}
+          navigationBar={
+            <Navigator.NavigationBar
+              routeMapper={NavigationBarRouteMapper}
+              style={styles.navBar}
+            />
           }
-        }}
-      />
+          renderScene={(route, navigator) => {
+            switch (route.name) {
+              case 'wifidex':
+                return <Wifidex {...this.props} launchInfoPanel={this.launchInfoPanel} />;
+                break;
+              default:
+                break;
+            }
+          }}
+        />
+        {modal}
+      </View>
     );
   }
 }

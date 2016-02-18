@@ -1,6 +1,8 @@
-'use strict';
-
-import React, { Component, View, ScrollView } from 'react-native';
+import React, {
+  Component,
+  View,
+  ScrollView,
+} from 'react-native';
 
 import Entry from '../components/entry';
 import Search from '../components/search';
@@ -30,6 +32,7 @@ export default class Wifidex extends Component {
           {...actions.search} />
         <View style={{flex: 1}}>
           <Entry
+            launchInfoPanel={this.props.launchInfoPanel}
             {...state.pokemon}
             {...actions.pokemon} />
         </View>
