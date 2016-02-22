@@ -12,11 +12,11 @@ export default class TypeList extends Component {
   }
 
   render() {
-    const { types } = this.props;
+    const { types, updateInfoPanelWithType, openInfoPanel } = this.props;
 
     const typeList = types.map(type => {
       const { type: { name } } = type;
-      return <Type key={`type_${name}`} onPress={this.props.launchInfoPanel} name={name} />;
+      return <Type key={`type_${name}`} onPress={updateInfoPanelWithType} name={name} />;
     }).reverse();
 
     return (

@@ -1,10 +1,29 @@
 import * as types from './actionTypes';
 
+function requestPokemon() {
+  return {
+    type: types.REQUEST_POKEMON,
+  };
+}
+
+function receivePokemon(data, strategy) {
+  return {
+    type: types.RECEIVE_POKEMON,
+    data,
+    strategy,
+  };
+}
+
+function fetchPokemonFailed(error) {
+  return {
+    type: types.FAILED_POKEMON,
+    error,
+  };
+}
+
 export function fetchPokemon(name) {
 
   return function(dispatch) {
-
-    console.log('fetching', name);
 
     dispatch(requestPokemon());
 
@@ -23,31 +42,6 @@ export function fetchPokemon(name) {
         if (!data[0].id) throw new Error(`Pokemon "${name}" not found`);
         return dispatch(receivePokemon(data[0], data[1]));
       })
-      .catch(error => {
-        console.log('errorrr', error);
-        dispatch(fetchPokemonFailed(error.message))
-      });
-
-  };
-}
-
-export function requestPokemon() {
-  return {
-    type: types.REQUEST_POKEMON,
-  };
-}
-
-export function receivePokemon(data, strategy) {
-  return {
-    type: types.RECEIVE_POKEMON,
-    data,
-    strategy,
-  };
-}
-
-export function fetchPokemonFailed(error) {
-  return {
-    type: types.FAILED_POKEMON,
-    error,
+      .catch(error => dispatch(fetchPokemonFailed(error.message)));
   };
 }

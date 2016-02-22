@@ -24,29 +24,29 @@ export default class TypeList extends Component {
 
   componentDidMount() {
     Animated.timing(this.state.offset, {
-      duration: 100,
+      duration: 250,
       toValue: 0,
     }).start();
   }
 
   close() {
     Animated.timing(this.state.offset, {
-      duration: 100,
+      duration: 250,
       toValue: deviceHeight,
     }).start(this.props.onClose);
   }
 
   render() {
+    const { state } = this.props;
     return (
       <AnimatedView style={[{transform: [{translateY: this.state.offset}]}, {backgroundColor: 'white', position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }]}>
         <View style={{flex: 1}}>
-          <NavigationBar title={{title: this.props.title}} rightButton={{title: 'Done', handler: this.close}} />
+          <NavigationBar title={{title: state.infoPanel.title}} rightButton={{title: 'Done', handler: this.close}} />
           <View style={{flex: 1, padding: 10}}>
-            <Text>{this.props.content}</Text>
+            {state.infoPanel.content.map((line, i) => <Text key={i}>{line}</Text>)}
           </View>
         </View>
       </AnimatedView>
     );
   }
-
 }

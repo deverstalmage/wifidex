@@ -22,6 +22,7 @@ export default class Wifidex extends Component {
 
   render() {
     const { state, actions } = this.props;
+    actions.infoPanel.openInfoPanel = this.props.openInfoPanel;
     return (
       <View style={{paddingTop: 64, flex: 1}}>
         <Search
@@ -32,9 +33,10 @@ export default class Wifidex extends Component {
           {...actions.search} />
         <View style={{flex: 1}}>
           <Entry
-            launchInfoPanel={this.props.launchInfoPanel}
             {...state.pokemon}
-            {...actions.pokemon} />
+            {...actions.pokemon}
+            {...actions.type}
+            {...actions.infoPanel} />
         </View>
       </View>
     );

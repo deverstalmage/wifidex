@@ -34,8 +34,7 @@ export default class Type extends Component {
   }
 
   onPress() {
-    console.log('pressin');
-    this.props.onPress(this.props.name, 'Some info about the type');
+    this.props.onPress(this.props.name);
   }
 
   render() {

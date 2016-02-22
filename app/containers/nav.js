@@ -6,12 +6,16 @@ import React, {
   Text,
   View,
   StatusBarIOS,
+  ActivityIndicatorIOS,
 } from 'react-native';
 
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 import * as pokemonActions from '../actions/pokemonActions';
 import * as searchActions from '../actions/searchActions';
-import { connect } from 'react-redux';
+import * as typeActions from '../actions/typeActions';
+import * as infoPanelActions from '../actions/infoPanelActions';
 
 import Wifidex from '../components/wifidex';
 import InfoPanel from '../components/infoPanel';
@@ -75,7 +79,6 @@ class Nav extends Component {
   constructor(props) {
     super(props);
 
-    this.launchInfoPanel = this.launchInfoPanel.bind(this);
     this.closeInfoPanel = this.closeInfoPanel.bind(this);
 
     this.state = {
@@ -84,36 +87,28 @@ class Nav extends Component {
         title: 'Wifidex',
         index: 0,
       },
-      modal: {
-        title: '',
-        content: '',
-        open: false,
-      },
     };
-  }
-
-  launchInfoPanel(title, content) {
-    this.setState({
-      modal: {
-        title,
-        content,
-        open: true,
-      },
-    })
   }
 
   closeInfoPanel() {
     StatusBarIOS.setStyle('light-content');
-    this.setState({
-      modal: {
-        ...this.state.modal,
-        open: false,
-      },
-    });
+    this.props.actions.infoPanel.closeInfoPanel();
   }
 
   render() {
-    const modal = this.state.modal.open ? <InfoPanel onClose={this.closeInfoPanel} {...this.state.modal} /> : null;
+    const modal = this.props.state.infoPanel.open ? <InfoPanel onClose={this.closeInfoPanel} {...this.props} /> : null;
+    const loader = (
+      this.props.state.pokemon.isFetching ||
+      this.props.state.type.isFetching
+    ) ? (
+      <View style={{position: 'absolute', right: 0, left: 0, bottom: 0, top: 0, alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{height: 100, width: 100, borderRadius: 10, backgroundColor: 'rgba(0, 0, 0, 0.6)'}}>
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <ActivityIndicatorIOS size={'large'} animating={true} />
+          </View>
+        </View>
+      </View>
+    ) : null;
 
     return (
       <View style={{flex: 1}}>
@@ -129,13 +124,14 @@ class Nav extends Component {
           renderScene={(route, navigator) => {
             switch (route.name) {
               case 'wifidex':
-                return <Wifidex {...this.props} launchInfoPanel={this.launchInfoPanel} />;
+                return <Wifidex {...this.props} />;
                 break;
               default:
                 break;
             }
           }}
         />
+        {loader}
         {modal}
       </View>
     );
@@ -146,7 +142,9 @@ export default connect(state => ({state}),
   (dispatch) => ({
     actions: {
       pokemon: bindActionCreators(pokemonActions, dispatch),
+      type: bindActionCreators(typeActions, dispatch),
       search: bindActionCreators(searchActions, dispatch),
+      infoPanel: bindActionCreators(infoPanelActions, dispatch),
     },
   })
 )(Nav);
